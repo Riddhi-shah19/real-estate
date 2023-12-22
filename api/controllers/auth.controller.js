@@ -27,6 +27,7 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
   // for not storing password
     const {password:pass,...rest}=validUser._doc
+  //  way to remember data about users
     res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest)
   } catch (error) {
     next(error)
