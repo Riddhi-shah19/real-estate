@@ -140,12 +140,14 @@ export default function Profile() {
       const res = await fetch(`/api/listing/delete/${listingId}`, {
         method: "DELETE",
       });
-      const data=await res.json()
-      if(data.success===false){
-        console.log(data.message)
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
         return;
       }
-      setUserListings((prev)=>prev.filter((listing)=>listing._id !== listingId))
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
     } catch (error) {
       console.log(error.message);
     }
@@ -271,7 +273,9 @@ export default function Profile() {
                 >
                   Delete
                 </button>
-                <button className="text-green-700 uppercase">Edit</button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className="text-green-700 uppercase">Edit</button>
+                </Link>
               </div>
             </div>
           ))}
