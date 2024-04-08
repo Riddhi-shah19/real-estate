@@ -1,6 +1,7 @@
 This project is about Modern Realestate marketplace built on MERN STACK with JWT and Redux toolkit.</br></br>
 
 Technologies used:</br>
+-vite is used for faster and better performance
 -For css I have used tailwindCSS</br>
 -Firbase for mage storae and google authentication</br></br>
 
