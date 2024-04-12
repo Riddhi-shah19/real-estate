@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux'
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import { FaBath, FaBed, FaChair, FaMapMarkerAlt, FaParking, FaShare } from "react-icons/fa";
+import Contact from "../components/Contact";
 
 export default function Listing() {
   SwiperCore.use(Navigation);
@@ -16,6 +17,7 @@ export default function Listing() {
   const [error, setError] = useState(false);
   const params = useParams();
   const {currentUser}=useSelector((state)=>state.user)
+  
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -123,6 +125,12 @@ export default function Listing() {
                 {listing.furnished?'Furnished':'UnFurnished'}
               </li>
             </ul>
+            {currentUser && listing.userRef !== currentUser._id&&(
+            <button onClick={()=>setContact(true)} className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3">
+              Contact landloard
+            </button>
+            )}
+            {contact && <Contact listing={listing}/>}
           </div>
         </div>
       )}
