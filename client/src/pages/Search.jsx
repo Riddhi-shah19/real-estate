@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../components/Listingitem";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -46,10 +47,11 @@ export default function Search() {
         order:orderFromUrl || 'desc'
       });
     }
+
     const fetchListings= async()=>{
       setLoading(true)
       const searchQuery=urlParams.toString()
-      const res=await fetch(`/api/listing/get/${searchQuery}`)
+      const res=await fetch(`/api/listing/get?${searchQuery}`)
       const data=await res.json()
       setListings(data)
       setLoading(false)
@@ -98,6 +100,7 @@ export default function Search() {
     urlParams.set("furnished", sidebardata.furnished);
     urlParams.set("offer", sidebardata.offer);
     urlParams.set("sort", sidebardata.sort);
+    urlParams.set("order", sidebardata.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
@@ -162,9 +165,9 @@ export default function Search() {
               <span>Offer</span>
             </div>
           </div>
-          <div>
+          <div className="flex gap-2 flex-wrap items-center">
             <label className="font-semibold">Amenities:</label>
-            <div className="flex gap-2 flex-wrap items-center">
+              <div className="flex gap-2">
               <input
                 type="checkbox"
                 id="parking"
@@ -174,7 +177,7 @@ export default function Search() {
               />
               <span>Parking</span>
             </div>
-            <div className="flex gap-2 flex-wrap items-center">
+            <div className="flex gap-2">
               <input
                 type="checkbox"
                 id="furnished"
@@ -208,10 +211,16 @@ export default function Search() {
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
           Listing Results:
         </h1>
-        <div className="p-7">
-          {!loading && Listingitem.length === 0 && (
+        <div className="p-7 flex flex-wrap gap-4">
+          {!loading && listings.length === 0 && (
             <p className="text-xl text-slate-700">No listing found!</p>
           )}
+          {loading&&(
+            <p className="text-xl text-slate-700 text-center w-full">Loading...</p>
+          )}
+          {
+            !loading&& listings&& listings.map((listing)=><ListingItem key={listing._id} listing={listing} />)
+          }
         </div>
       </div>
     </div>
